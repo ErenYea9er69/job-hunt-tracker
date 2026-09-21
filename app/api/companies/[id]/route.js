@@ -3,7 +3,7 @@ import { getCompany, updateCompany, deleteCompany } from "@/lib/companies";
 
 export async function GET(request, { params }) {
   const { id } = await params;
-  const company = getCompany(id);
+  const company = await getCompany(id);
   if (!company) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
@@ -14,7 +14,7 @@ export async function PUT(request, { params }) {
   const { id } = await params;
   try {
     const body = await request.json();
-    const company = updateCompany(id, body);
+    const company = await updateCompany(id, body);
     if (!company) {
       return NextResponse.json({ error: "Not found." }, { status: 404 });
     }
@@ -26,7 +26,7 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   const { id } = await params;
-  const deleted = deleteCompany(id);
+  const deleted = await deleteCompany(id);
   if (!deleted) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }

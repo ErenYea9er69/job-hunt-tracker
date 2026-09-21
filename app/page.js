@@ -4,9 +4,9 @@ import { listCompanies, getStats } from "@/lib/companies";
 
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
-  const companies = listCompanies();
-  const stats = getStats(companies);
+export default async function HomePage() {
+  const companies = await listCompanies();
+  const stats = await getStats(companies);
 
   return (
     <div className="min-h-screen">

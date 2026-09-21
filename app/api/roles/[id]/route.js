@@ -5,7 +5,7 @@ export async function PUT(request, { params }) {
   const { id } = await params;
   try {
     const body = await request.json();
-    const role = updateRole(id, body);
+    const role = await updateRole(id, body);
     if (!role) {
       return NextResponse.json({ error: "Not found." }, { status: 404 });
     }
@@ -17,7 +17,7 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   const { id } = await params;
-  const deleted = deleteRole(id);
+  const deleted = await deleteRole(id);
   if (!deleted) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }

@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 export default async function CompanyDetailPage({ params }) {
   const { id } = await params;
-  const company = getCompany(id);
+  const company = await getCompany(id);
   if (!company) notFound();
 
   return (
