@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: Iowan Old Style, "Palatino Linotype", Palatino, Georgia, "Noto Serif", serif;
+  --font-body: -apple-system, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: "Cascadia Code", "SF Mono", "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+
+  --color-paper: #f2ede2;
+  --color-paper-dark: #e8e0d0;
+  --color-ink: #1c1a17;
+  --color-ink-soft: #58524a;
+  --color-rust: #c2502c;
+  --color-rust-dark: #9c3d20;
+  --color-forest: #3c5a41;
+  --color-mustard: #b8862f;
+  --color-slate: #4c5a63;
+  --color-line: #cbc0aa;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(28, 26, 23, 0.06) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background-color: var(--color-rust);
+  color: var(--color-paper);
+}
+
+/* Torn / stamped card edge */
+.dossier-card {
+  background-color: #fbf8f1;
+  border: 1px solid var(--color-line);
+  box-shadow: 3px 3px 0 rgba(28, 26, 23, 0.08);
+}
+
+.stamp {
+  transform: rotate(-3deg);
+  letter-spacing: 0.08em;
+}
+
+input,
+select,
+textarea {
+  background-color: #fbf8f1;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-rust);
+  box-shadow: 0 0 0 2px rgba(194, 80, 44, 0.15);
+}
+
+@media print {
+  body {
+    background-image: none;
+  }
+}
