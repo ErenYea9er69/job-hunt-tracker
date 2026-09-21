@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-const inputClass = "w-full rounded-sm px-3 py-2 text-sm";
+import { ExternalLink, Trash2, Plus } from "lucide-react";
 
 export default function RolesManager({ companyId, roles }) {
   const router = useRouter();
@@ -27,7 +26,7 @@ export default function RolesManager({ companyId, roles }) {
   async function handleAdd(e) {
     e.preventDefault();
     if (!title.trim()) {
-      setError("A role needs a title.");
+      setError("Please enter a role title.");
       return;
     }
     setSaving(true);
@@ -64,40 +63,57 @@ export default function RolesManager({ companyId, roles }) {
   return (
     <div className="space-y-3">
       {roles.length === 0 ? (
-        <p className="font-mono text-xs text-ink-soft">No open roles logged yet.</p>
+        <div className="rounded-xl border border-dashed border-zinc-800 p-4 text-center">
+          <p className="text-xs text-zinc-500">No open roles logged yet for this company.</p>
+        </div>
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-2.5">
           {roles.map((role) => (
-            <li key={role.id} className="rounded-sm border border-line bg-[#fbf8f1] px-3 py-2.5">
+            <li
+              key={role.id}
+              className="rounded-xl bg-zinc-900/60 border border-zinc-800/80 p-3.5 transition-colors hover:border-zinc-700/80"
+            >
               <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="font-display text-base font-semibold text-ink">
-                    {role.title}
-                  </p>
-                  {role.link ? (
-                    <a
-                      href={role.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-mono text-[11px] text-slate underline underline-offset-2"
-                    >
-                      posting link
-                    </a>
-                  ) : null}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-sm text-zinc-100 truncate">
+                      {role.title}
+                    </span>
+                    {role.link ? (
+                      <a
+                        href={role.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 text-[11px] text-indigo-400 hover:text-indigo-300 transition-colors"
+                      >
+                        <ExternalLink className="size-3" />
+                        Posting
+                      </a>
+                    ) : null}
+                  </div>
+
                   {role.stipend_mentioned ? (
-                    <p className="mt-1 font-mono text-[11px] text-forest">
-                      Stipend: {role.stipend_details || "mentioned"}
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400">
+                        <span className="size-1 rounded-full bg-emerald-400" />
+                        {role.stipend_details || "Stipend offered"}
+                      </span>
+                    </div>
+                  ) : null}
+
+                  {role.notes ? (
+                    <p className="mt-1.5 text-xs text-zinc-400">
+                      {role.notes}
                     </p>
                   ) : null}
-                  {role.notes ? (
-                    <p className="mt-1 text-xs text-ink-soft">{role.notes}</p>
-                  ) : null}
                 </div>
+
                 <button
                   onClick={() => handleDelete(role.id)}
-                  className="font-mono text-[11px] uppercase tracking-wide text-rust hover:text-rust-dark"
+                  title="Remove role"
+                  className="rounded-lg p-1 text-zinc-500 hover:bg-rose-500/10 hover:text-rose-400 transition-colors"
                 >
-                  Remove
+                  <Trash2 className="size-4" />
                 </button>
               </div>
             </li>
@@ -106,51 +122,53 @@ export default function RolesManager({ companyId, roles }) {
       )}
 
       {showForm ? (
-        <form onSubmit={handleAdd} className="space-y-3 rounded-sm border border-dashed border-line p-3">
-          {error ? <p className="text-xs text-rust">{error}</p> : null}
+        <form onSubmit={handleAdd} className="space-y-3 rounded-xl border border-zinc-800 bg-zinc-900/50 p-3.5">
+          {error ? <p className="text-xs text-rose-400">{error}</p> : null}
           <input
-            className={inputClass}
-            placeholder="Role title, e.g. Frontend Engineer Intern"
+            className="input-glass w-full"
+            placeholder="Role title (e.g. AI Engineer Intern)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <input
-            className={inputClass}
-            placeholder="Posting link"
+            className="input-glass w-full"
+            placeholder="Posting URL (optional)"
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
-          <label className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <label className="flex items-center gap-2 cursor-pointer select-none text-xs text-zinc-300">
+              <input
+                type="checkbox"
+                className="size-3.5 rounded border-zinc-700 text-indigo-600 focus:ring-0"
+                checked={stipendMentioned}
+                onChange={(e) => setStipendMentioned(e.target.checked)}
+              />
+              <span>Stipend mentioned</span>
+            </label>
+          </div>
+          {stipendMentioned ? (
             <input
-              type="checkbox"
-              className="h-4 w-4"
-              checked={stipendMentioned}
-              onChange={(e) => setStipendMentioned(e.target.checked)}
+              className="input-glass w-full"
+              placeholder="e.g. $3,000/mo or Paid"
+              value={stipendDetails}
+              onChange={(e) => setStipendDetails(e.target.value)}
             />
-            <span className="font-mono text-xs uppercase tracking-wide text-ink-soft">
-              Stipend mentioned
-            </span>
-          </label>
-          <input
-            className={inputClass}
-            placeholder="Stipend details"
-            value={stipendDetails}
-            onChange={(e) => setStipendDetails(e.target.value)}
-          />
+          ) : null}
           <textarea
-            className={inputClass}
+            className="input-glass w-full"
             rows={2}
-            placeholder="Notes on this role"
+            placeholder="Notes about requirements, interview stages..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
           />
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2 pt-1">
             <button
               type="submit"
               disabled={saving}
-              className="rounded-sm bg-ink px-4 py-1.5 font-mono text-xs uppercase tracking-wide text-paper hover:bg-rust disabled:opacity-60"
+              className="rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-md shadow-indigo-600/20 hover:bg-indigo-500 disabled:opacity-50"
             >
-              {saving ? "Adding..." : "Add role"}
+              {saving ? "Adding..." : "Add Role"}
             </button>
             <button
               type="button"
@@ -158,7 +176,7 @@ export default function RolesManager({ companyId, roles }) {
                 setShowForm(false);
                 setError("");
               }}
-              className="font-mono text-xs uppercase tracking-wide text-ink-soft"
+              className="rounded-xl bg-zinc-800 border border-zinc-700/60 px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-white"
             >
               Cancel
             </button>
@@ -167,9 +185,10 @@ export default function RolesManager({ companyId, roles }) {
       ) : (
         <button
           onClick={() => setShowForm(true)}
-          className="rounded-sm border border-ink px-4 py-1.5 font-mono text-xs uppercase tracking-wide text-ink hover:bg-ink hover:text-paper"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-800 py-2.5 text-xs font-medium text-zinc-400 hover:border-indigo-500/50 hover:bg-indigo-500/5 hover:text-indigo-300 transition-all"
         >
-          + Log an open role
+          <Plus className="size-3.5" />
+          Log an open role
         </button>
       )}
     </div>

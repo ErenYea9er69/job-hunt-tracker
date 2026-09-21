@@ -1,78 +1,89 @@
 @import "tailwindcss";
 
-@theme {
-  --font-display: Iowan Old Style, "Palatino Linotype", Palatino, Georgia, "Noto Serif", serif;
-  --font-body: -apple-system, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --font-mono: "Cascadia Code", "SF Mono", "IBM Plex Mono", "Courier New", ui-monospace, monospace;
-
-  --color-paper: #f2ede2;
-  --color-paper-dark: #e8e0d0;
-  --color-ink: #1c1a17;
-  --color-ink-soft: #58524a;
-  --color-rust: #c2502c;
-  --color-rust-dark: #9c3d20;
-  --color-forest: #3c5a41;
-  --color-mustard: #b8862f;
-  --color-slate: #4c5a63;
-  --color-line: #cbc0aa;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-body);
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(28, 26, 23, 0.06) 1px, transparent 0);
-  background-size: 22px 22px;
-}
-
-.font-display {
-  font-family: var(--font-display);
-}
-
-.font-mono {
-  font-family: var(--font-mono);
-}
-
-::selection {
-  background-color: var(--color-rust);
-  color: var(--color-paper);
-}
-
-/* Torn / stamped card edge */
-.dossier-card {
-  background-color: #fbf8f1;
-  border: 1px solid var(--color-line);
-  box-shadow: 3px 3px 0 rgba(28, 26, 23, 0.08);
-}
-
-.stamp {
-  transform: rotate(-3deg);
-  letter-spacing: 0.08em;
-}
-
-input,
-select,
-textarea {
-  background-color: #fbf8f1;
-  border: 1px solid var(--color-line);
-  color: var(--color-ink);
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--color-rust);
-  box-shadow: 0 0 0 2px rgba(194, 80, 44, 0.15);
-}
-
-@media print {
-  body {
-    background-image: none;
+@layer base {
+  :root {
+    --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #09090b;
+    color: #f4f4f5;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    min-height: 100vh;
+    background-image: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                      radial-gradient(circle at 100% 20%, rgba(168, 85, 247, 0.04) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background-color: rgba(99, 102, 241, 0.4);
+    color: #ffffff;
+  }
+}
+
+/* Glass card styling */
+.glass-card {
+  background: rgba(24, 24, 27, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(63, 63, 70, 0.45);
+  border-radius: 1rem;
+}
+
+.glass-card-hover {
+  background: rgba(24, 24, 27, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(63, 63, 70, 0.45);
+  border-radius: 1rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  background: rgba(39, 39, 42, 0.7);
+  border-color: rgba(113, 113, 122, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom form inputs */
+.input-glass {
+  background-color: rgba(18, 18, 20, 0.75);
+  border: 1px solid rgba(63, 63, 70, 0.5);
+  color: #f4f4f5;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.875rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input-glass:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.8);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.input-glass::placeholder {
+  color: #71717a;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(63, 63, 70, 0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 113, 122, 0.8);
 }

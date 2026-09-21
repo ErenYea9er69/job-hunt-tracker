@@ -9,33 +9,30 @@ import {
 } from "@/lib/constants";
 
 export function ApplicationStatusBadge({ value }) {
-  const style = APPLICATION_STATUS_STYLES[value] || APPLICATION_STATUS_STYLES.not_applied;
+  const s = APPLICATION_STATUS_STYLES[value] || APPLICATION_STATUS_STYLES.not_applied;
   return (
-    <span
-      className={`inline-flex items-center rounded-sm border px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider ${style}`}
-    >
+    <span className={`inline-flex items-center gap-1.5 rounded-full ${s.bg} ${s.border} border px-2.5 py-0.5 text-[11px] font-medium ${s.text}`}>
+      <span className={`size-1.5 rounded-full ${s.dot}`} />
       {labelFor(APPLICATION_STATUSES, value)}
     </span>
   );
 }
 
 export function HiringStatusBadge({ value }) {
-  const style = HIRING_STATUS_STYLES[value] || HIRING_STATUS_STYLES.unknown;
+  const s = HIRING_STATUS_STYLES[value] || HIRING_STATUS_STYLES.unknown;
   return (
-    <span
-      className={`inline-flex items-center rounded-sm border px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider ${style}`}
-    >
+    <span className={`inline-flex items-center gap-1.5 rounded-full ${s.bg} ${s.border} border px-2.5 py-0.5 text-[11px] font-medium ${s.text}`}>
+      <span className={`size-1.5 rounded-full ${s.dot}`} />
       {labelFor(HIRING_STATUSES, value)}
     </span>
   );
 }
 
 export function PriorityStamp({ value }) {
-  const style = PRIORITY_STYLES[value] || PRIORITY_STYLES.medium;
+  const s = PRIORITY_STYLES[value] || PRIORITY_STYLES.medium;
   return (
-    <span
-      className={`stamp inline-flex items-center rounded-sm px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider ${style}`}
-    >
+    <span className={`inline-flex items-center gap-1.5 rounded-full ${s.bg} ${s.border} border px-2.5 py-0.5 text-[11px] font-medium ${s.text}`}>
+      <span className={`size-1.5 rounded-full ${s.dot}`} />
       {labelFor(PRIORITIES, value)}
     </span>
   );
